@@ -1,0 +1,95 @@
+version: "2.2"
+
+services:
+  
+  kafka_zk:
+    image: docker.io/bitnami/zookeeper:3.8
+    container_name: kafka_zk
+    hostname: kafka_zk
+    expose:
+      - "2181"
+      - "2888"
+      - "3888"
+    volumes:
+      - /data/zookeeper:/bitnami
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      sr_cluster_network:
+        ipv4_address: ${ZOOKEEPER_IP}
+
+  kafka:
+    image: docker.io/bitnami/kafka:3.1
+    container_name: kafka
+    hostname: kafka
+    expose:
+      - "9092"
+    volumes:
+      - /data/kafka:/bitnami
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://${KAFKA_IP}:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=kafka_zk:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    networks:
+      sr_cluster_network:
+        ipv4_address: ${KAFKA_IP}
+    depends_on:
+      - kafka_zk
+
+  etcd1:
+    image: "bitnami/etcd:3.5.4"
+    container_name: etcd1
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_ADVERTISE_CLIENT_URLS=http://${ETCD1_IP}:2379
+    volumes:
+      - /data/etcd1:/bitnami/etcd
+    expose:
+      - 2379
+      - 2380
+    networks:
+      sr_cluster_network:
+        ipv4_address: ${ETCD1_IP}
+
+  ws:
+    build:
+      context: ../
+      dockerfile: ./0docker/app/Dockerfile-ws
+      # dockerfile: ./0docker/app/Dockerfile-slow
+    container_name: ws
+    image: ws:v1
+    entrypoint: ["/ws"]
+    environment:
+      - KAFKA_BROKERS=${KAFKA_IP}:9092
+      - RUST_LOG=info,tower_http=info
+    ports:
+      - 8000:8000
+    networks:
+      sr_cluster_network:
+        ipv4_address: ${SR_WS_IP}
+    depends_on:
+      - kafka
+
+  cons:
+    build:
+      context: ../
+      dockerfile: ./0docker/app/Dockerfile-cons
+      # dockerfile: ./0docker/app/Dockerfile-slow
+    container_name: cons
+    image: cons:v1
+    entrypoint: ["/cons"]    
+    environment:
+      - KAFKA_BROKERS=${KAFKA_IP}:9092
+      - RUST_LOG=info
+    networks:
+      sr_cluster_network:
+        ipv4_address: ${SR_CONS_IP}
+    depends_on:
+      - kafka
+
+networks:
+  sr_cluster_network:
+    external: true

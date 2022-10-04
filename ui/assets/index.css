@@ -1,0 +1,97 @@
+body {
+  /* background-color: black; */
+  background-color: white;
+}
+
+#search-form{
+    background-color: white;
+    position: center;
+
+}
+
+/* #search-any {
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+	color: rgba(0,0,0,.87);
+	word-wrap: break-word;
+	outline: 1px dotted #f0f4f4;
+    outline: 1px dotted black;
+	display: flex;
+	flex: 100%;
+	margin-top: center;
+    margin-left: 10px;
+	height: 10vh;
+    width: 80vw;
+	font-size: 16px;
+} */
+
+/* #submit-any{
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+	color: rgba(0,0,0,.87);
+	word-wrap: break-word;
+	outline: none;
+	display: flex;
+	flex: 100%;
+	margin-top: 30px;
+    margin-left: 60px;
+	height: 34px;
+	font-size: 16px;
+} */
+
+#ecHomeTag{
+  width: 100vw;
+  height: 20vh;
+}
+
+.skillsItem {
+  width: 33vw;
+  height: 45vh;
+}
+
+#ecTechStack {
+  width: 100vw;
+  height: 90vh;
+}
+
+#ecDomains {
+  width: 100vw;
+  height: 90vh;
+}
+
+#containerVR {
+  width: 100vw;
+  height: 90vh;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
+}
+
+.pure-menu-link {
+    padding: 10px;
+    color: white;
+}
+
+.pure-menu-horizontal {
+    display: inline-block;
+    width: 100vw;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    background-color: #0047AB;
+    white-space: nowrap;
+    position: relative;
+}
+      

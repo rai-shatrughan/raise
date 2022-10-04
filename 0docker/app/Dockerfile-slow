@@ -1,0 +1,24 @@
+#use when host is not debian buster
+
+FROM rust:1.62.0 as builder
+
+RUN apt-get update && apt-get install -y cmake musl musl-tools
+RUN ln -s /usr/bin/g++ /usr/bin/musl-g++
+RUN rustup target add x86_64-unknown-linux-musl
+
+VOLUME target /usr/src/target
+
+WORKDIR /usr/src/
+COPY utils utils
+COPY ws ws
+COPY cons cons
+
+WORKDIR /usr/src/ws
+RUN cargo install --target x86_64-unknown-linux-musl --target-dir /usr/src/target --path . 
+
+WORKDIR /usr/src/cons
+RUN cargo install --target x86_64-unknown-linux-musl --target-dir /usr/src/target --path . 
+ 
+FROM scratch
+COPY --from=builder /usr/local/cargo/bin/ws /ws
+COPY --from=builder /usr/local/cargo/bin/cons /cons

@@ -1,0 +1,4 @@
+FROM scratch
+COPY 0docker/app/bin/ws /ws
+COPY ui/dist /dist
+ENV WEB_DIR=/dist

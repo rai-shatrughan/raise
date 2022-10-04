@@ -1,0 +1,2 @@
+FROM scratch
+COPY 0docker/app/bin/cons /cons
