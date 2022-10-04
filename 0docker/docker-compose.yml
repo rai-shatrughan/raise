@@ -6,6 +6,7 @@ services:
     image: docker.io/bitnami/zookeeper:3.8
     container_name: kafka_zk
     hostname: kafka_zk
+    restart: always
     expose:
       - "2181"
       - "2888"
@@ -22,6 +23,7 @@ services:
     image: docker.io/bitnami/kafka:3.1
     container_name: kafka
     hostname: kafka
+    restart: always
     expose:
       - "9092"
     volumes:
@@ -42,6 +44,7 @@ services:
   etcd1:
     image: "bitnami/etcd:3.5.4"
     container_name: etcd1
+    restart: always
     environment:
       - ALLOW_NONE_AUTHENTICATION=yes
       - ETCD_ADVERTISE_CLIENT_URLS=http://${ETCD1_IP}:2379
@@ -61,6 +64,7 @@ services:
       # dockerfile: ./0docker/app/Dockerfile-slow
     container_name: ws
     image: ws:v1
+    restart: always
     entrypoint: ["/ws"]
     environment:
       - KAFKA_BROKERS=${KAFKA_IP}:9092
@@ -80,6 +84,7 @@ services:
       # dockerfile: ./0docker/app/Dockerfile-slow
     container_name: cons
     image: cons:v1
+    restart: always
     entrypoint: ["/cons"]    
     environment:
       - KAFKA_BROKERS=${KAFKA_IP}:9092
