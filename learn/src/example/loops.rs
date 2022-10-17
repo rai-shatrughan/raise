@@ -1,3 +1,5 @@
+use std::fmt::Display;
+use std::ops::Add;
 
 pub fn loop_example(init_value: i64, max_value: i64) {
     println!("====");
@@ -26,16 +28,26 @@ pub fn while_example(init_value: i64, max_value: i64) {
     println!("----");
 }
 
-pub fn for_example(init_value: i64, max_value: i64){
+pub fn for_example(init_value: i64, max_value: i64) {
     println!("++");
     println!("i init : {}", init_value);
-    for i in init_value..max_value+1{
+    for i in init_value..max_value + 1 {
         println!("i in loop : {}", i);
     }
     println!("i after: {}", max_value);
     println!("++");
 }
 
-// pub fn vec_example(array :Vec<T>){
+pub fn vec_example<T: Display>(array: &Vec<T>) {
+    println!("--");
+    for item in array {
+        println!("Vec Item : {}", item)
+    }
+    println!("--");
+}
 
-// }
+pub fn transform_vec_example<T: Add<Output = T> + Copy>(array: &mut Vec<T>, increment_by: T) {
+    for i in 0..array.len() {
+        array[i] = array[i] + increment_by;
+    }
+}
