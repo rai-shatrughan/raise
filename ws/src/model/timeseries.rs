@@ -4,9 +4,15 @@ use std::fmt;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Timeseries {
     timestamp: String,
-    property: String,
-    unit: String,
+    values: Vec<TimeseriesValue>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TimeseriesValue {
+    data_point_id: String,
     value: f64,
+    quality_code: f64,
 }
 
 // this is not needed with `serde_json::to_string(&payload).unwrap()`
@@ -16,3 +22,4 @@ impl fmt::Display for Timeseries {
         write!(f, "{}", serde_json::to_string(&self).unwrap())
     }
 }
+

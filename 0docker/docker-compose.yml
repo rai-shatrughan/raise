@@ -69,8 +69,8 @@ services:
     environment:
       - KAFKA_BROKERS=${KAFKA_IP}:9092
       - RUST_LOG=info,tower_http=info
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     networks:
       sr_cluster_network:
         ipv4_address: ${SR_WS_IP}
