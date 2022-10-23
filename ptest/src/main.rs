@@ -13,16 +13,34 @@ async fn main() -> Result<(), GooseError> {
 
 async fn ts_put(user: &mut GooseUser) -> TransactionResult {
     let data = json!([{
-        "timestamp": "2017-07-21T17:32:28Z",
-        "property": "temperature",
-        "unit": "celcius",
-        "value": 80
+        "timestamp": "2022-10-01T08:30:03.780Z",
+        "values": [
+            {
+                "dataPointId": "dp1",
+                "value": 985,
+                "qualityCode": 0
+            },
+            {
+                "dataPointId": "dp2",
+                "value": 374,
+                "qualityCode": 0
+            }
+        ]
     },
     {
-        "timestamp": "2017-07-21T17:32:28Z",
-        "property": "pressure",
-        "unit": "ton",
-        "value": 20
+        "timestamp": "2022-10-02T08:30:03.780Z",
+        "values": [
+            {
+                "dataPointId": "dp1",
+                "value": 987,
+                "qualityCode": 0
+            },
+            {
+                "dataPointId": "dp2",
+                "value": 376,
+                "qualityCode": 0
+            }
+        ]
     }
     ]);
 
